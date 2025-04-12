@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Icon from '@react-native-vector-icons/evil-icons';
 import IonIcons from '@react-native-vector-icons/ionicons';
 
@@ -14,8 +14,11 @@ import {AppImages, heightFullScreen, widthFullScreen} from '../utils';
 import {useCharacters, useFilterForm} from '../hooks';
 import {Shadow} from 'react-native-shadow-2';
 import {useSettingsState} from '../store';
+import {useId} from 'react';
+import CharacterCard from '../components/CharacterCard';
 
 export const Home = () => {
+  const flatListId = useId();
   const {
     container,
     scrollWrapper,
@@ -25,6 +28,8 @@ export const Home = () => {
     textFilter,
     btnLoadMore,
     shadowShape,
+    loadingImg,
+    flatListWrapper,
   } = styles;
 
   const {
@@ -32,21 +37,24 @@ export const Home = () => {
     //methods
     control,
     //functions
+    changeNameFiltered,
   } = useFilterForm();
 
   const {
     //states
     characters,
+    infoData,
     //methods
     //functions
+    getCharacters,
   } = useCharacters();
   const {
     //states
+    isOpenModalFilters,
     //actions
     changeModalFiltersState,
   } = useSettingsState();
 
-  console.log({characters});
   return (
     <BrandWrapper>
       <View style={container}>
@@ -73,7 +81,10 @@ export const Home = () => {
                 color={'#00000061'}
               />
             }
-            name={'filterName'}
+            onChangeCallback={val => {
+              changeNameFiltered(val);
+            }}
+            name={'filterByName'}
             inputStyle={inputStyles}
             placeholder="Filter by name..."
             keyboardType="default"
@@ -100,26 +111,58 @@ export const Home = () => {
               }
             />
           </Shadow>
-          <View style={{width: '100%', height: 60}} />
-          <Shadow
-            style={{
-              ...shadowShape,
-            }}>
-            <ButtonGeneric
-              buttonStyle={{...btnFilter, ...btnLoadMore}}
-              activeOpacity={0.7}
-              onPress={() => {}}
-              textContent={
-                <View style={{...container}}>
-                  <Text style={{...textFilter}}>load more</Text>
-                </View>
+          <View style={{width: '100%', height: heightFullScreen * 0.04}} />
+          {characters.length === 0 ? (
+            <CustomImage
+              isLocalUrl
+              src={AppImages.loading}
+              style={{
+                ...loadingImg,
+              }}
+            />
+          ) : (
+            <FlatList
+              contentContainerStyle={{alignItems: 'center'}}
+              style={{...flatListWrapper}}
+              data={characters}
+              renderItem={({item}) => <CharacterCard item={item} />}
+              key={flatListId}
+              keyExtractor={item => item.id.toString()}
+              numColumns={1}
+              onEndReached={() => {
+                // there should be an automatic fetch here
+              }}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
+              ListFooterComponent={
+                <Shadow
+                  style={{
+                    ...shadowShape,
+                    display:
+                      infoData.count > characters.length ? 'flex' : 'none',
+                  }}>
+                  <ButtonGeneric
+                    buttonStyle={{...btnFilter, ...btnLoadMore}}
+                    activeOpacity={0.7}
+                    onPress={() =>
+                      getCharacters({
+                        nextPage: `${infoData.currentPage + 1}`,
+                      })
+                    }
+                    textContent={
+                      <View style={{...container}}>
+                        <Text style={{...textFilter}}>load more</Text>
+                      </View>
+                    }
+                  />
+                </Shadow>
               }
             />
-          </Shadow>
+          )}
         </ScrollView>
       </View>
 
-      <ModalFilters />
+      {isOpenModalFilters && <ModalFilters />}
       <Footer />
     </BrandWrapper>
   );
@@ -174,5 +217,13 @@ const styles = StyleSheet.create({
   shadowShape: {
     borderRadius: 8,
     margin: 'auto',
+  },
+  loadingImg: {
+    width: widthFullScreen * 0.7,
+  },
+  flatListWrapper: {
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: heightFullScreen * 0.045,
   },
 });

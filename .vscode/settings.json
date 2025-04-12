@@ -10,6 +10,8 @@
     "/src/hooks",
     "/src/components/inputs",
     "/src/store",
-    "/src/store/interfaces"
+    "/src/store/interfaces",
+    "/src/test/mocks",
+    "/src/test"
   ]
 }

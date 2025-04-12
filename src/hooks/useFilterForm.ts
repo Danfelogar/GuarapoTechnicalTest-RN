@@ -2,46 +2,46 @@ import {useForm} from 'react-hook-form';
 import {FilterCharacter} from '../interfaces';
 import {useCharactersState} from '../store';
 import {useEffect} from 'react';
-
+import {useDebouncedValue} from './useDebouncedValue';
 export const useFilterForm = () => {
   const {
     //state
+    nameFiltered,
     //actions
     changeSpeciesSelected,
     changeStatusSelected,
     changeGenderSelected,
+    changeNameFiltered,
+    getCharacters,
   } = useCharactersState();
-  const {control, watch} = useForm<FilterCharacter>();
 
+  const {control, watch} = useForm<
+    Omit<
+      FilterCharacter,
+      'filterByStatus' | 'filterBySpecies' | 'filterByGender'
+    >
+  >({
+    defaultValues: {
+      filterByName: nameFiltered,
+    },
+  });
   const filterByName = watch('filterByName');
-  const filterByStatus = watch('filterByStatus');
-  const filterBySpecies = watch('filterBySpecies');
-  const filterByGender = watch('filterByGender');
-
+  const filterByNameDebounced = useDebouncedValue(filterByName, 700);
   useEffect(() => {
-    if (filterByStatus !== null) {
-      changeStatusSelected(filterByStatus);
-    }
-  }, [changeStatusSelected, filterByStatus]);
-  useEffect(() => {
-    if (filterBySpecies !== null) {
-      changeSpeciesSelected(filterBySpecies);
-    }
-  }, [changeSpeciesSelected, filterBySpecies]);
-  useEffect(() => {
-    if (filterByGender !== null) {
-      changeGenderSelected(filterByGender);
-    }
-  }, [changeGenderSelected, filterByGender]);
+    getCharacters({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterByNameDebounced]);
 
   return {
     //state
     filterByName,
-    filterByStatus,
-    filterBySpecies,
-    filterByGender,
+
     //methods
     control,
     //functions
+    changeSpeciesSelected,
+    changeStatusSelected,
+    changeGenderSelected,
+    changeNameFiltered,
   };
 };

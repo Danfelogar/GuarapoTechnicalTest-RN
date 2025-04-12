@@ -1,28 +1,32 @@
 import {create} from 'zustand';
-import {CharactersState, CharactersWithoutActions} from './interfaces';
-import {RickAndMortyApi} from '../services';
-import {ApiCharactersRes, CharacterRes} from '../interfaces';
-import {buildQueryParams} from '../utils';
+import {type StateCreator} from 'zustand';
+import {CharactersState, CharactersWithoutActions} from '../../store';
+import {ApiCharactersRes, CharacterRes} from '../../interfaces';
+import {buildQueryParams} from '../../utils';
+import {MockRickAndMortyApi} from './mockRickAndMortyApi';
 
-const INITIAL_INFO_DATA = {
+export const INITIAL_INFO_DATA_MOCK = {
   count: 0,
   pages: 0,
   currentPage: 1,
 };
 
-const INITIAL_STATE: CharactersWithoutActions = {
+export const INITIAL_STATE_MOCK: CharactersWithoutActions = {
   speciesSelected: '',
   statusSelected: '',
   genderSelected: '',
   nameFiltered: '',
   singleCharacter: null,
-  infoData: INITIAL_INFO_DATA,
+  infoData: INITIAL_INFO_DATA_MOCK,
   isLoading: false,
   characters: [],
 };
 
-export const useCharactersState = create<CharactersState>((set, get) => ({
-  ...INITIAL_STATE,
+export const useCharactersState: StateCreator<CharactersState> = (
+  set,
+  get,
+) => ({
+  ...INITIAL_STATE_MOCK,
   //actions
   changeSpeciesSelected: species => {
     set({speciesSelected: species});
@@ -38,7 +42,7 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
   },
   changeInfoData: ({count, currentPage, pages}) => {
     if (!count && !currentPage && !pages) {
-      set({infoData: INITIAL_INFO_DATA});
+      set({infoData: INITIAL_INFO_DATA_MOCK});
     } else {
       set(oldState => ({
         infoData: {
@@ -55,15 +59,16 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
       isLoading: !oldState.isLoading,
     }));
   },
-  //TODO
+
   resetSingleCharacter: () => {
     set({singleCharacter: null});
   },
+  //TODO
   getCharacterById: async id => {
     const currentState = get();
     const {changeLoading} = currentState;
     changeLoading();
-    await RickAndMortyApi.get<CharacterRes>(`/character/${id}`)
+    await MockRickAndMortyApi.get<CharacterRes>(`/character/${id}`)
       .then(res => {
         console.log({res});
         set({
@@ -99,7 +104,7 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
         page: nextPage,
         name: nameFiltered,
       });
-      const res = await RickAndMortyApi.get<ApiCharactersRes>(
+      const res = await MockRickAndMortyApi.get<ApiCharactersRes>(
         `/character/?${params.toString()}`,
       );
       const {info, results} = res.data;
@@ -122,4 +127,7 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
       changeLoading();
     }
   },
-}));
+});
+
+export const useCharactersStoreMock =
+  create<CharactersState>(useCharactersState);

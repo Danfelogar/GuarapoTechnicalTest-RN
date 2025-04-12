@@ -12,6 +12,7 @@ export const InputSelect = <T extends FieldValues>({
   placeHolder,
   iconColor,
   placeHolderColor,
+  onChangeCallback,
 }: InputSelectProps<T>) => {
   const {iconContainer, placeholder, inputAndroid, inputIOS} = styles;
 
@@ -24,6 +25,7 @@ export const InputSelect = <T extends FieldValues>({
         return (
           <View style={{width: '100%'}}>
             <RNPickerSelect
+              useNativeAndroidPickerStyle={false} //quit native picker style on android
               Icon={() => {
                 return (
                   <FontAwesome6
@@ -35,6 +37,9 @@ export const InputSelect = <T extends FieldValues>({
                 );
               }}
               onValueChange={(val: any) => {
+                if (onChangeCallback) {
+                  onChangeCallback(val);
+                }
                 onChange(val);
               }}
               items={items}

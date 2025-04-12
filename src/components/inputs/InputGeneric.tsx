@@ -16,6 +16,7 @@ export function InputGeneric<T extends FieldValues>({
   multiline = false,
   multilineStyle,
   heightMultiline,
+  onChangeCallback,
   name,
   control,
 }: CustomInputGeneric<T>) {
@@ -56,7 +57,10 @@ export function InputGeneric<T extends FieldValues>({
                 autoCorrect={autoCorrect}
                 secureTextEntry={isSecretText || false}
                 keyboardType={keyboardType || 'default'}
-                onChangeText={onChange}
+                onChangeText={text => {
+                  onChange(text);
+                  onChangeCallback && onChangeCallback(text);
+                }}
                 value={value}
                 multiline={multiline}
               />

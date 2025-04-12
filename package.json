@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "true-test": "jest --config jest.config.js --coverage --testPathIgnorePatterns=starter.test.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -33,6 +34,29 @@
     "yup": "^1.6.1",
     "zustand": "^5.0.3"
   },
+  "jest": {
+    "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./setupTests.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "./test"
+    ],
+    "modulePathIgnorePatterns": [
+      "mocks",
+      "e2e/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
@@ -44,10 +68,12 @@
     "@react-native/eslint-config": "0.78.2",
     "@react-native/metro-config": "0.78.2",
     "@react-native/typescript-config": "0.78.2",
+    "@testing-library/react-native": "^13.2.0",
     "@types/jest": "^29.5.13",
     "@types/react": "^19.0.0",
     "@types/react-test-renderer": "^19.0.0",
     "eslint": "^8.19.0",
+    "eslint-plugin-jest": "^28.11.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
     "react-test-renderer": "19.0.0",

@@ -5,6 +5,7 @@ export interface CharactersState {
   speciesSelected: string;
   statusSelected: string;
   genderSelected: string;
+  nameFiltered: string;
   characters: CharacterRes[];
   singleCharacter: CharacterRes | null;
   infoData: {
@@ -17,7 +18,8 @@ export interface CharactersState {
   changeSpeciesSelected: (species: string) => void;
   changeStatusSelected: (status: string) => void;
   changeGenderSelected: (gender: string) => void;
-  getCharacters: (nextPage?: string) => void;
+  changeNameFiltered: (name: string) => void;
+  getCharacters: ({nextPage}: {nextPage?: string}) => void;
   getCharacterById: (id: string) => void;
   resetSingleCharacter: () => void;
   changeInfoData: ({
@@ -38,6 +40,7 @@ export interface CharactersWithoutActions
     | 'changeSpeciesSelected'
     | 'changeStatusSelected'
     | 'changeGenderSelected'
+    | 'changeNameFiltered'
     | 'getCharacters'
     | 'getCharacterById'
     | 'changeInfoData'

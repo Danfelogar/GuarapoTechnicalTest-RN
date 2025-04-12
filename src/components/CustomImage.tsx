@@ -23,15 +23,17 @@ export const CustomImage: FC<CustomImageProps> = ({
       return (src as ImageSourcePropType) || AppImages.loading;
     }
 
-    return {uri: src as string};
+    // Properly format remote URI
+    return typeof src === 'string' ? {uri: src} : defaultErrorImage;
   };
 
   return (
     <Image
       resizeMethod="none"
+      onLoad={() => setHasError(false)}
       source={getImageSource()}
       onError={handleError}
-      style={style}
+      style={[style]}
       {...props}
     />
   );

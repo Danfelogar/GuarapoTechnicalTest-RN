@@ -17,6 +17,8 @@ export interface CustomInputGeneric<T extends FieldValues> {
   multiline?: boolean;
   multilineStyle?: StyleProp<any>;
   heightMultiline?: number;
+  onChangeCallback?: (value: any) => void;
+
   //control
   name: string;
   control: Control<T, any>;
@@ -28,6 +30,7 @@ export interface InputSelectProps<T extends FieldValues> {
   placeHolder: string;
   placeHolderColor?: string;
   items: Array<{label: string; value: string}>;
+  onChangeCallback?: (value: any) => void;
   //control
   name: string;
   control: Control<T, any>;

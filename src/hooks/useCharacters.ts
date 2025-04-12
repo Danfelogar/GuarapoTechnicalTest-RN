@@ -5,18 +5,36 @@ export const useCharacters = () => {
   const {
     //state
     characters,
+    infoData,
+    isLoading,
     //actions
+    changeSpeciesSelected,
+    changeStatusSelected,
+    changeGenderSelected,
+    changeNameFiltered,
     getCharacters,
   } = useCharactersState();
 
   useEffect(() => {
-    getCharacters();
+    getCharacters({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const clearFiltersAndGetData = () => {
+    changeSpeciesSelected('');
+    changeStatusSelected('');
+    changeGenderSelected('');
+    changeNameFiltered('');
+    getCharacters({});
+  };
   return {
     //states
     characters,
+    infoData,
+    isLoading,
     //methods
     //functions
+    getCharacters,
+    clearFiltersAndGetData,
   };
 };

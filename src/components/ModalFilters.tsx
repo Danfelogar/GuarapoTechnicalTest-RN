@@ -1,4 +1,3 @@
-import {Fragment} from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Feather from '@react-native-vector-icons/feather';
 
@@ -15,7 +14,7 @@ import {useSettingsState} from '../store';
 import {Shadow} from 'react-native-shadow-2';
 import {ButtonGeneric} from './ButtonGeneric';
 import {InputSelect} from './inputs';
-import {useFilterForm} from '../hooks';
+import {useCharacters, useFilterSelectors} from '../hooks';
 
 export const ModalFilters = () => {
   const {
@@ -36,88 +35,106 @@ export const ModalFilters = () => {
   } = useSettingsState();
 
   const {
+    //states
+    //methods
+    //functions
+    getCharacters,
+  } = useCharacters();
+
+  const {
     //state
     //methods
     control,
     //functions
-  } = useFilterForm();
+    changeSpeciesSelected,
+    changeStatusSelected,
+    changeGenderSelected,
+  } = useFilterSelectors();
   return (
-    //not working in react-native-0.76 and versions post in android(Modal of react-native)
-    <Fragment>
-      {isOpenModalFilters && (
-        <StandardWrapper>
-          <Modal
-            visible={isOpenModalFilters}
-            transparent
-            onRequestClose={changeModalFiltersState}
-            animationType="slide">
-            <View style={containerModal}>
-              <TouchableOpacity
-                activeOpacity={1}
+    <StandardWrapper>
+      <Modal
+        visible={isOpenModalFilters}
+        transparent
+        onRequestClose={changeModalFiltersState}
+        animationType="slide">
+        <View style={containerModal}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={changeModalFiltersState}
+            style={{
+              width: widthFullScreen,
+              height: heightFullScreen,
+            }}
+          />
+          <View style={modalContent}>
+            <View style={titleHeader}>
+              <Text style={{...titleModal}}>Filters</Text>
+              <Feather
                 onPress={changeModalFiltersState}
-                style={{
-                  width: widthFullScreen,
-                  height: heightFullScreen,
-                }}
+                name="x"
+                size={heightFullScreen / 32}
+                color={'#00000061'}
               />
-              <View style={modalContent}>
-                <View style={titleHeader}>
-                  <Text style={{...titleModal}}>Filters</Text>
-                  <Feather
-                    onPress={changeModalFiltersState}
-                    name="x"
-                    size={heightFullScreen / 32}
-                    color={'#00000061'}
-                  />
-                </View>
-                <InputSelect
-                  items={enumToSelectItems(SpeciesOptions)}
-                  control={control}
-                  name="filterBySpecies"
-                  placeHolder="Species"
-                  iconColor="#00000061"
-                  placeHolderColor="#00000061"
-                />
-                <InputSelect
-                  items={enumToSelectItems(GenderOptions)}
-                  control={control}
-                  name="filterByGender"
-                  placeHolder="Gender"
-                  iconColor="#00000061"
-                  placeHolderColor="#00000061"
-                />
-                <InputSelect
-                  items={enumToSelectItems(StatusOptions)}
-                  control={control}
-                  name="filterByStatus"
-                  placeHolder="Status"
-                  iconColor="#00000061"
-                  placeHolderColor="#00000061"
-                />
-                <View
-                  style={{width: '100%', height: heightFullScreen * 0.015}}
-                />
-                <Shadow
-                  style={{
-                    ...shadowShape,
-                  }}>
-                  <ButtonGeneric
-                    buttonStyle={{...btnFilter}}
-                    activeOpacity={0.7}
-                    onPress={changeModalFiltersState}
-                    textContent={
-                      <View style={{flex: 1}}>
-                        <Text style={{...textFilter}}>apply</Text>
-                      </View>
-                    }
-                  />
-                </Shadow>
-              </View>
             </View>
-          </Modal>
-        </StandardWrapper>
-      )}
-    </Fragment>
+            <InputSelect
+              items={enumToSelectItems(SpeciesOptions)}
+              control={control}
+              onChangeCallback={val => {
+                changeSpeciesSelected(val);
+                console.log('val---->', val);
+              }}
+              name="filterBySpecies"
+              placeHolder="Species"
+              iconColor="#00000061"
+              placeHolderColor="#00000061"
+            />
+            <InputSelect
+              items={enumToSelectItems(GenderOptions)}
+              control={control}
+              onChangeCallback={val => {
+                changeGenderSelected(val);
+                console.log('val---->', val);
+              }}
+              name="filterByGender"
+              placeHolder="Gender"
+              iconColor="#00000061"
+              placeHolderColor="#00000061"
+            />
+            <InputSelect
+              items={enumToSelectItems(StatusOptions)}
+              control={control}
+              onChangeCallback={val => {
+                changeStatusSelected(val);
+                console.log('val---->', val);
+              }}
+              name="filterByStatus"
+              placeHolder="Status"
+              iconColor="#00000061"
+              placeHolderColor="#00000061"
+            />
+            <View style={{width: '100%', height: heightFullScreen * 0.015}} />
+            <Shadow
+              style={{
+                ...shadowShape,
+              }}>
+              <ButtonGeneric
+                buttonStyle={{...btnFilter}}
+                activeOpacity={0.7}
+                onPress={() => {
+                  getCharacters({});
+                  changeModalFiltersState();
+                }}
+                textContent={
+                  <View style={{flex: 1}}>
+                    <Text style={{...textFilter}}>apply</Text>
+                  </View>
+                }
+              />
+            </Shadow>
+          </View>
+        </View>
+      </Modal>
+    </StandardWrapper>
   );
 };
 
