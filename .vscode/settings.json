@@ -1,0 +1,15 @@
+{
+  "exportall.config.folderListener": [
+    "/src/components",
+    "/src",
+    "/src/navigation",
+    "/src/screens",
+    "/src/interfaces",
+    "/src/utils",
+    "/src/utils/const",
+    "/src/hooks",
+    "/src/components/inputs",
+    "/src/store",
+    "/src/store/interfaces"
+  ]
+}
