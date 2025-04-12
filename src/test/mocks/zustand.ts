@@ -1,10 +1,10 @@
 // __mocks__/zustand.ts
-
 import {act} from '@testing-library/react-native';
 import type * as ZustandExportedTypes from 'zustand';
-export * from 'zustand';
 
+export * from 'zustand';
 const {create: actualCreate, createStore: actualCreateStore} =
+  // @ts-ignore - Ignorar TS para Jest
   jest.requireActual<typeof ZustandExportedTypes>('zustand');
 
 // a variable to hold reset functions for all stores declared in the app

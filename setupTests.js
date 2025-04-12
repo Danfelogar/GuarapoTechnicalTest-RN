@@ -1,5 +1,6 @@
 // setupTests.js
 import 'react-native-gesture-handler/jestSetup';
+import '@testing-library/jest-native/extend-expect';
 
 // for zustand
 import '@testing-library/jest-dom';

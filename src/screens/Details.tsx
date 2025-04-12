@@ -1,12 +1,11 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import Feather from '@react-native-vector-icons/feather';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {RootStackMainParams} from '../interfaces';
 import {useSingleCharacter} from '../hooks';
 import {BrandWrapper, ButtonGeneric, CustomImage, Footer} from '../components';
 import {heightFullScreen, widthFullScreen} from '../utils';
 import InfoDetail from '../components/InfoDetail';
-import {ScrollView} from 'react-native-gesture-handler';
 interface Props extends StackScreenProps<RootStackMainParams, 'Details'> {}
 
 export const Details = ({route, navigation}: Props) => {
