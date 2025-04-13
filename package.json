@@ -22,6 +22,7 @@
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/stack": "^7.2.10",
     "axios": "^1.8.4",
+    "node-libs-react-native": "^1.2.1",
     "react": "19.0.0",
     "react-hook-form": "^7.55.0",
     "react-native": "0.78.2",
@@ -35,27 +36,10 @@
     "zustand": "^5.0.3"
   },
   "jest": {
-    "preset": "react-native",
-    "setupFiles": [
-      "./node_modules/react-native-gesture-handler/jestSetup.js",
-      "./setupTests.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./test"
-    ],
-    "modulePathIgnorePatterns": [
-      "mocks",
-      "e2e/"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^console$": "console-browserify"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
