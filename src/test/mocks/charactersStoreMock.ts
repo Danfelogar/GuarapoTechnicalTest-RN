@@ -22,7 +22,7 @@ export const INITIAL_STATE_MOCK: CharactersWithoutActions = {
   characters: [],
 };
 
-export const useCharactersState: StateCreator<CharactersState> = (
+export const useCharactersStateTest: StateCreator<CharactersState> = (
   set,
   get,
 ) => ({
@@ -129,5 +129,6 @@ export const useCharactersState: StateCreator<CharactersState> = (
   },
 });
 
-export const useCharactersStoreMock =
-  create<CharactersState>(useCharactersState);
+export const useCharactersStoreMock = create<CharactersState>(
+  useCharactersStateTest,
+);
