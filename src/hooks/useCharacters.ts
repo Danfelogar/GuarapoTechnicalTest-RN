@@ -7,6 +7,7 @@ export const useCharacters = () => {
     characters,
     infoData,
     isLoading,
+    isFirstRenderOnHome,
     //actions
     changeSpeciesSelected,
     changeStatusSelected,
@@ -16,7 +17,9 @@ export const useCharacters = () => {
   } = useCharactersState();
 
   useEffect(() => {
-    getCharacters({});
+    if (isFirstRenderOnHome) {
+      getCharacters({});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -27,6 +30,7 @@ export const useCharacters = () => {
     changeNameFiltered('');
     getCharacters({});
   };
+
   return {
     //states
     characters,

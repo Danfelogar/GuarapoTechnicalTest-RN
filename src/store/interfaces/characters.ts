@@ -2,6 +2,7 @@ import {CharacterRes} from '../../interfaces';
 
 export interface CharactersState {
   //state
+  isFirstRenderOnHome: boolean;
   speciesSelected: string;
   statusSelected: string;
   genderSelected: string;
@@ -32,18 +33,20 @@ export interface CharactersState {
     currentPage?: number;
   }) => void;
   changeLoading: () => void;
+  changeFirstRenderOnHome: (isFirstRender?: boolean) => void;
 }
 
 export interface CharactersWithoutActions
   extends Omit<
     CharactersState,
+    | 'changeFirstRenderOnHome'
     | 'changeSpeciesSelected'
     | 'changeStatusSelected'
     | 'changeGenderSelected'
+    | 'resetSingleCharacter'
     | 'changeNameFiltered'
-    | 'getCharacters'
     | 'getCharacterById'
     | 'changeInfoData'
+    | 'getCharacters'
     | 'changeLoading'
-    | 'resetSingleCharacter'
   > {}

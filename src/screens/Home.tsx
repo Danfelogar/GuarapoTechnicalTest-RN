@@ -54,7 +54,7 @@ export const Home = () => {
     //actions
     changeModalFiltersState,
   } = useSettingsState();
-
+  console.log('characters', characters.length);
   return (
     <BrandWrapper>
       <View style={container}>

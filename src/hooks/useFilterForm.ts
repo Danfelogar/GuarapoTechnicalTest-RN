@@ -15,7 +15,7 @@ export const useFilterForm = () => {
     getCharacters,
   } = useCharactersState();
 
-  const {control, watch} = useForm<
+  const {control, watch, setValue} = useForm<
     Omit<
       FilterCharacter,
       'filterByStatus' | 'filterBySpecies' | 'filterByGender'
@@ -27,6 +27,12 @@ export const useFilterForm = () => {
   });
   const filterByName = watch('filterByName');
   const filterByNameDebounced = useDebouncedValue(filterByName, 700);
+
+  useEffect(() => {
+    if (nameFiltered === '') {
+      setValue('filterByName', '');
+    }
+  }, [nameFiltered]);
   useEffect(() => {
     getCharacters({});
     // eslint-disable-next-line react-hooks/exhaustive-deps

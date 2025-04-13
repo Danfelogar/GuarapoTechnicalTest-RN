@@ -18,6 +18,7 @@ const INITIAL_STATE: CharactersWithoutActions = {
   singleCharacter: null,
   infoData: INITIAL_INFO_DATA,
   isLoading: false,
+  isFirstRenderOnHome: true,
   characters: [],
 };
 
@@ -55,6 +56,11 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
       isLoading: !oldState.isLoading,
     }));
   },
+  changeFirstRenderOnHome: (val: boolean = true) => {
+    set({
+      isFirstRenderOnHome: val,
+    });
+  },
   //TODO
   resetSingleCharacter: () => {
     set({singleCharacter: null});
@@ -65,7 +71,6 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
     changeLoading();
     await RickAndMortyApi.get<CharacterRes>(`/character/${id}`)
       .then(res => {
-        console.log({res});
         set({
           singleCharacter: res.data,
         });
@@ -85,10 +90,12 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
     const {
       changeLoading,
       changeInfoData,
+      changeFirstRenderOnHome,
       speciesSelected,
       genderSelected,
       statusSelected,
       nameFiltered,
+      isFirstRenderOnHome,
     } = currentState;
     changeLoading();
     try {
@@ -112,6 +119,7 @@ export const useCharactersState = create<CharactersState>((set, get) => ({
           currentPage: Number(nextPage),
         },
       }));
+      if (isFirstRenderOnHome) changeFirstRenderOnHome(false);
     } catch (e) {
       console.error(e);
       set({

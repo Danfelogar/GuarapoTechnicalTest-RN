@@ -1,6 +1,72 @@
+# GuarapoLabTechnicalTest
+
+Inspired by the Rick and Morty API, this app seeks to list, filter and display the details of all the characters of the series that have been released to date.
+
+# Setup Enviroment
+
+Project created with React Native CLI.[ See official docs](https://reactnative.dev/docs/environment-setup) to set up the environment.
+
+### Run
+
+**Install dependencies**
+```bash
+npm i
+```
+**Install IOS Pods**
+cd ios to navigate to the ios folder.
+```
+ install Bundler
+bundle exec pod install
+```
+
+ to install the iOS dependencies managed by CocoaPods.
+
+**Run project**
+
+```bash
+npm start
+```
+
+**Run IOS**
+
+```bash
+npm run ios
+```
+
+**Run Android**
+
+```bash
+npm run android
+```
+
+### 🛠 Tech and Libraries
+
+- [React Native](https://reactnative.dev/) Library js
+- [TypeScript](https://www.typescriptlang.org/)Application typing stronger
+- [React Navigation](https://reactnavigation.org/): Routing and navigation
+- [React Hook Form](https://react-hook-form.com/get-started): Build scalable and performant forms
+- [Axios](https://github.com/axios/axios): Promise based HTTP client
+- [Zustand](https://redux-toolkit.js.org/Í): Data storage more  efficient and easy to handler than Redux or Redux Toolkit
+
+
+# Link-video-demo-app
+
+[![Alt text](https://img.youtube.com/vi/5uhDERSZBBM/0.jpg)](https://www.youtube.com/watch?v=5uhDERSZBBM)
+
+### App Screenshots
+
+
+|                                 |                                     Mobile                                  |
+| :------------------------------:| :--------------------------------------------------------------------------:|
+|               Screen 1          |                        ![](src/assets/imgs/screen1.png)                     |
+|               Screen 2          |                        ![](src/assets/imgs/screen2.png)                     |
+|               Screen 3          |                        ![](src/assets/imgs/screen3.png)                     |
+
+
+
 # Command tree for the files
 
-```
+```bash
 .
 ├── App.tsx
 ├── Gemfile
